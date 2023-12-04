@@ -1,8 +1,5 @@
 package modelo;
 
-import java.time.LocalDate;
-import java.time.Period;
-
 public class Convidado extends Participante{
 	// Atributos
 	private String empresa;
@@ -12,6 +9,8 @@ public class Convidado extends Participante{
 		super(cpf, nascimento); // Indica que é uma subclasse e que herdará estes atributos da superclasse
 		this.empresa = empresa;
 	}
+	
+	// Obs: A classe Convidade já irá herdar o método calcularIdade(), logo não é necessário criá-lo novamente
 	
 	// Getters
 	public String getEmpresa() {
@@ -23,11 +22,5 @@ public class Convidado extends Participante{
 	public String toString() {
 		return "Convidado [empresa=" + empresa + ", getCpf()=" + getCpf() + ", getNascimento()=" + getNascimento()
 				+ ", getIngressos()=" + getIngressos() + "]";
-	}
-	
-	// Métodos
-	@Override
-	public int calcularIdade(LocalDate nascimento, LocalDate dataAtual) {
-		return Period.between(nascimento, dataAtual).getYears();
 	}
 }

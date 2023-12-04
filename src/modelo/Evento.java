@@ -9,7 +9,8 @@ public class Evento {
 	private String descricao;
 	private int capacidade;
 	private double preco;
-	private ArrayList<Ingresso> ingressos = new ArrayList<Ingresso>();
+	
+	private ArrayList<Ingresso> ingressos = new ArrayList<Ingresso>(); // Relacionamento 1:N com a classe Ingresso
 	
 	// Construtor
 	public Evento(int id, String data, String descricao, int capacidade, double preco) {
@@ -19,6 +20,47 @@ public class Evento {
 		this.capacidade = capacidade;
 		this.preco = preco;
 	}
+	
+	// Métodos
+	public void adicionar(Ingresso i) {
+		ingressos.add(i);
+	}
+	
+	public void remover(Ingresso i) {
+		ingressos.remove(i);
+	}
+	
+	public Ingresso localizar(String codigo) {
+		for(Ingresso i : ingressos) {
+			if(i.getCodigo().equals(codigo)) {
+				return i;
+			}
+		}
+		return null;
+	}
+	
+	public boolean lotado() { // Verifica se o evento está lotado
+		/*
+		if(ingressos.size() == capacidade) {
+			return true;
+		}
+		else {
+			return false;
+		} */
+		
+	    return ingressos.size() == capacidade;
+	}
+	
+	// Retorna a quantidade de ingressos
+	public int quantidadeIngressos() {
+		return ingressos.size(); // A ser testado
+	}
+	
+	// Retorna o valor total arrecadado pelo evento
+	public double totalArrecadado() {
+		return ingressos.size() * this.preco; // A ser testado 
+	}
+
 	
 	// Getters e setters
 	public int getId() {
@@ -51,32 +93,4 @@ public class Evento {
 		return "Evento [id=" + id + ", data=" + data + ", descricao=" + descricao + ", capacidade=" + capacidade
 				+ ", preco=" + preco + ", ingressos=" + ingressos + "]";
 	}
-	
-	// Métodos	
-	// Verifica se o evento está lotado
-	public boolean lotado() {
-		/*
-		if(ingressos.size() == capacidade) {
-			return true;
-		}
-		else {
-			return false;
-		} */
-		
-	    return ingressos.size() == capacidade;
-	}
-	
-	// Retorna a quantidade de ingressos
-	public int quantidadeIngressos() {
-		return ingressos.size(); // Favor testar
-	}
-	
-	// Retorna o valor total arrecadado pelo evento
-	public double totalArrecadado() {
-		// return ingressos.size() * preco;
-		return quantidadeIngressos() * this.preco;
-	}
-	
-	// Relacionamento com a classe Ingresso
-	
 }

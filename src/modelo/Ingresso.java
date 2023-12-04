@@ -4,15 +4,14 @@ public class Ingresso {
 	// Atributos
 	private String codigo;
 	private String telefone;
-	private Evento evento;
-	private Participante participante;
+	
+	private Evento evento; // Relacionamento 1:1 com a classe Evento
+	private Participante participante; // Relacionamento 1:1 com a classe Participante
 	
 	// Construtor
-	public Ingresso(String codigo, String telefone, Evento evento, Participante participante) {
+	public Ingresso(String codigo, String telefone) {
 		this.codigo = codigo;
 		this.telefone = telefone;
-		this.evento = evento;
-		this.participante = participante;
 	}
 
 	// Getters
@@ -40,12 +39,8 @@ public class Ingresso {
 	}
 	
 	// Métodos
-	
-	// Relacionamento com a classe Evento
-	
-	
-	// Relacionamento com a classe Participante
-	
-	
+	public double calcularPreco() { // A ser testado
+		return evento.getPreco() * participante.valorDesconto();
+	}
 	
 }
