@@ -48,7 +48,7 @@ public class Evento {
 			return false;
 		} */
 		
-	    return ingressos.size() == capacidade;
+	    return ingressos.size() >= capacidade;
 	}
 	
 	// Retorna a quantidade de ingressos

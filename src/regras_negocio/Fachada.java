@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import modelo.Convidado;
 import modelo.Evento;
+import modelo.Ingresso;
 import modelo.Participante;
 import repositorio.Repositorio;
 
@@ -73,4 +74,68 @@ public class Fachada {
 		return repositorio.getEventos();
 	}
 	
-}
+	// criarIngresso
+//	public static void criarIngresso(int id, String cpf, String telefone) throws Exception{
+//		String codigo = id + cpf;
+//		
+//		Evento e = repositorio.localizarEvento(id);
+//		Participante p = repositorio.localizarParticipante(cpf);
+//		
+//		if(e == null) {
+//			throw new Exception("Evento inexistente"); // Lança exceção caso não exista um evento relacionado com o id
+//		}
+//		if(p == null) {
+//			throw new Exception("Participante inexistente");
+//		}
+//		if(e.lotado()) {
+//			throw new Exception("Evento lotado"); // Lança exceção caso o evento esteja lotado
+//		}
+//		
+//		Ingresso i = new Ingresso(cpf, telefone); // Cria o ingresso propriamente dito
+//		i.setEvento(e); // Associando o evento ao ingresso
+//		e.adicionar(i); // Adicionando o ingresso à lista de ingressos do evento
+//		i.setParticipante(p);
+//		p.adicionar(i);
+//		
+//		repositorio.adicionar(i);; // Adiciona ingresso ao repositório
+//		repositorio.salvarObjetos();	
+//	}
+//	
+//	// listarIngressos
+//	public static ArrayList<Ingresso> listarIngressos() {
+//		return repositorio.getIngressos();
+//	}
+	
+	// ...
+// criarIngresso
+	public static void criarIngresso(int id, String cpf, String telefone) throws Exception {
+		Evento e = repositorio.localizarEvento(id);
+		Participante p = repositorio.localizarParticipante(cpf);
+
+	        if (e == null) {
+	            throw new Exception("Evento não encontrado");
+	        }
+
+	        if (p == null) {
+	            throw new Exception("Participante não encontrado");
+	        }
+	        if(e.lotado()) {
+				throw new Exception("Evento lotado"); // Lança exceção caso o evento esteja lotado
+			}
+
+	        String codigo = id + "-" + cpf;
+	        Ingresso ingresso = new Ingresso(codigo, telefone);
+	        e.adicionar(ingresso);
+	        p.adicionar(ingresso);
+	        repositorio.adicionar(ingresso);
+
+	        repositorio.salvarObjetos();
+	    }
+
+	    // listarIngressos
+	    public static ArrayList<Ingresso> listarIngressos() {
+	        return repositorio.getIngressos();
+	    }
+
+	    // ...
+	}

@@ -14,7 +14,7 @@ public class Ingresso {
 		this.telefone = telefone;
 	}
 
-	// Getters
+	// Getters e setters
 	public String getCodigo() {
 		return codigo;
 	}
@@ -29,6 +29,14 @@ public class Ingresso {
 
 	public Participante getParticipante() {
 		return participante;
+	}
+
+	public void setEvento(Evento evento) {
+		this.evento = evento;
+	}
+	
+	public void setParticipante(Participante participante) {
+		this.participante = participante;
 	}
 
 	// ToString
