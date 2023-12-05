@@ -3,6 +3,7 @@ package regras_negocio;
 import java.util.ArrayList;
 
 import modelo.Convidado;
+import modelo.Evento;
 import modelo.Participante;
 import repositorio.Repositorio;
 
@@ -13,7 +14,6 @@ public class Fachada {
 	private Fachada() {}
 	
 	// Métodos
-	// --------------------------------
 	
 	// criarParticipante()
 	public static void criarParticipante(String cpf, String nascimento) throws Exception{
@@ -41,8 +41,36 @@ public class Fachada {
 		repositorio.salvarObjetos();
 	}
 	
+	// listarParticipantes
 	public static ArrayList<Participante> listarParticipantes() {
 		return repositorio.getParticipantes();
+	}
+	
+	// criarEvento
+	public static void criarEvento(String data, String descricao, int capacidade, double preco) throws Exception{
+		// O evento pode ter preço 0 (nesse caso, seria considerado um evento beneficente
+		if(preco < 0) {
+			throw new Exception("Preço negativo"); // Lança exceção caso o preço for negativo
+		}
+		if(capacidade < 2) {
+			throw new Exception("A capacidade do evento deve ser de no mínimo 2 ingressos"); // Lança exceção caso a capacidade do evento for inferior a 2 ingressos
+		}
+		if(data == null || data.isEmpty()) {
+			throw new Exception("A data do evento é obrigatória"); // Lança exceção se a data do evento não for especificada
+		}
+		if(descricao == null || descricao.isEmpty()) {
+			throw new Exception("A descrição do evento é obrigatório"); // Lança exceção se a descrição do evento não for especificada
+		}
+		
+		int id = repositorio.gerarId();
+		Evento e = new Evento(id, data, descricao, capacidade, preco);
+		repositorio.adicionar(e);
+		repositorio.salvarObjetos();
+	}
+	
+	// listarEventos
+	public static ArrayList<Evento> listarEventos() {
+		return repositorio.getEventos();
 	}
 	
 }
