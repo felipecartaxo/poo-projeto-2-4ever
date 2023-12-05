@@ -105,30 +105,37 @@ public class Fachada {
 //	public static ArrayList<Ingresso> listarIngressos() {
 //		return repositorio.getIngressos();
 //	}
-	
-	// ...
-// criarIngresso
+
+	//	criarIngresso
 	public static void criarIngresso(int id, String cpf, String telefone) throws Exception {
 		Evento e = repositorio.localizarEvento(id);
 		Participante p = repositorio.localizarParticipante(cpf);
 
 	        if (e == null) {
-	            throw new Exception("Evento não encontrado");
+	        	throw new Exception("Evento não encontrado"); // Lança exceção caso o evento não exista
 	        }
-
 	        if (p == null) {
-	            throw new Exception("Participante não encontrado");
+	        	throw new Exception("Participante não encontrado"); // Lança exceção caso o participante não exista
 	        }
 	        if(e.lotado()) {
-				throw new Exception("Evento lotado"); // Lança exceção caso o evento esteja lotado
+	        	throw new Exception("Evento lotado"); // Lança exceção caso o evento esteja lotado
 			}
 
 	        String codigo = id + "-" + cpf;
 	        Ingresso ingresso = new Ingresso(codigo, telefone);
+	        
+	        // Configurar relacionamento bidirecional
+	        ingresso.setEvento(e);
+	        ingresso.setParticipante(p);
+	        
+	        // Adicionar o ingresso ao evento e ao participante
 	        e.adicionar(ingresso);
 	        p.adicionar(ingresso);
+	        
+	        // Adicionar o ingresso ao repositório
 	        repositorio.adicionar(ingresso);
-
+	        
+	        // Salvar objetos no repositório
 	        repositorio.salvarObjetos();
 	    }
 
@@ -136,6 +143,4 @@ public class Fachada {
 	    public static ArrayList<Ingresso> listarIngressos() {
 	        return repositorio.getIngressos();
 	    }
-
-	    // ...
 	}

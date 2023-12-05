@@ -35,9 +35,9 @@ public class Teste1 {
 
 		try {
 			System.out.println("\ncriando eventos");
-			Fachada.criarEvento("24/11/2023","show da pisadinha",2,100.0);
-			Fachada.criarEvento("24/06/2024","show de sao joao",2,200.0);
-			Fachada.criarEvento("01/01/2024","fake",2,0.0);
+			Fachada.criarEvento("24/11/2023","show da pisadinha",20,100.0);
+			Fachada.criarEvento("24/06/2024","show de sao joao",20,200.0);
+			Fachada.criarEvento("01/01/2024","fake",20,0.0);
 			System.out.println("---------listagem de eventos");
 			for(Evento e : Fachada.listarEventos()) 
 				System.out.println(e);
@@ -49,16 +49,16 @@ public class Teste1 {
 		try {
 			System.out.println("\ncriando ingressos");
 			Fachada.criarIngresso(1,"1111","988001101");
-//			Fachada.criarIngresso(1,"2222","988001102");
-//			Fachada.criarIngresso(1,"3333","988001103");
-//			Fachada.criarIngresso(1,"4444","988001104");
-//			Fachada.criarIngresso(1,"5555","988001105");
-//			Fachada.criarIngresso(1,"6666","988001106");
+			Fachada.criarIngresso(1,"2222","988001102");
+			Fachada.criarIngresso(1,"3333","988001103");
+			Fachada.criarIngresso(1,"4444","988001104");
+			Fachada.criarIngresso(1,"5555","988001105");
+			Fachada.criarIngresso(1,"6666","988001106");
 			Fachada.criarIngresso(2,"1111","988001101");
-//			Fachada.criarIngresso(2,"2222","988001102");
-//			Fachada.criarIngresso(2,"3333","988001103");
-//			Fachada.criarIngresso(2,"4444","988001104");
-//			Fachada.criarIngresso(2,"5555","988001105");
+			Fachada.criarIngresso(2,"2222","988001102");
+			Fachada.criarIngresso(2,"3333","988001103");
+			Fachada.criarIngresso(2,"4444","988001104");
+			Fachada.criarIngresso(2,"5555","988001105");
 			Fachada.criarIngresso(2,"6666","988001106");
 			Fachada.criarIngresso(1,"7777","988001107");
 			System.out.println("---------listagem de ingressos");

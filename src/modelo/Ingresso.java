@@ -38,17 +38,17 @@ public class Ingresso {
 	public void setParticipante(Participante participante) {
 		this.participante = participante;
 	}
-
-	// ToString
-	@Override
-	public String toString() {
-		return "Ingresso [codigo=" + codigo + ", telefone=" + telefone + ", evento=" + evento + ", participante="
-				+ participante + "]";
-	}
 	
 	// Métodos
 	public double calcularPreco() { // A ser testado
 		return evento.getPreco() * participante.valorDesconto();
 	}
+
+	@Override
+	public String toString() {
+        // Adiciona as informações requeridas ao toString
+        return "\nCódigo do ingresso = " + codigo + "\nTelefone = " + telefone + "\nCódigo do evento = " + evento.getId() + "\nCPF do titular = " + participante.getCpf() + "\n--------------------";
+    }
+	
 	
 }
