@@ -3,13 +3,13 @@ package modelo;
 import java.util.ArrayList;
 
 public class Evento {
+
 	// Atributos
 	private int id;
 	private String data;
 	private String descricao;
 	private int capacidade;
 	private double preco;
-	
 	private ArrayList<Ingresso> ingressos = new ArrayList<Ingresso>(); // Relacionamento 1:N com a classe Ingresso
 	
 	// Construtor
@@ -39,7 +39,8 @@ public class Evento {
 		return null;
 	}
 	
-	public boolean lotado() { // Verifica se o evento está lotado
+	// Verifica se o evento está lotado
+	public boolean lotado() {
 		/*
 		if(ingressos.size() == capacidade) {
 			return true;
@@ -58,11 +59,15 @@ public class Evento {
 	
 	// Retorna o valor total arrecadado pelo evento
 	public double totalArrecadado() {
-		return ingressos.size() * this.preco; // A ser testado 
+		double total = 0.0;
+		
+		for (Ingresso i : ingressos) {
+			total += i.calcularPreco(); // Calcula o valor do ingresso, já com o desconto, e o incrementa na variável total que será retornada
+		}
+		return total;
 	}
 
-	
-	// Getters e setters
+	// Getters
 	public int getId() {
 		return id;
 	}
@@ -86,11 +91,32 @@ public class Evento {
 	private ArrayList<Ingresso> getIngressos() {
 		return ingressos;
 	}
+	
+	// Setters
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setData(String data) {
+		this.data = data;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public void setCapacidade(int capacidade) {
+		this.capacidade = capacidade;
+	}
+
+	public void setPreco(double preco) {
+		this.preco = preco;
+	}
 
 	// ToString
 	@Override
 	public String toString() {
-		return "Evento [id=" + id + ", data=" + data + ", descricao=" + descricao + ", capacidade=" + capacidade
-				+ ", preco=" + preco + ", ingressos=" + ingressos + "]";
+		return "Evento: ID = " + id + ";" + " Data = " + data + ";" + " Desc = " + descricao + ";" + " Capac = " + capacidade
+				+ ";" + " Preco= R$ " + preco + ";" + " Ingressos = " + ingressos;
 	}
 }

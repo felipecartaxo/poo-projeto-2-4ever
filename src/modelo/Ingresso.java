@@ -41,14 +41,12 @@ public class Ingresso {
 	
 	// Métodos
 	public double calcularPreco() { // A ser testado
-		return evento.getPreco() * participante.valorDesconto();
+		return evento.getPreco() - (evento.getPreco() * participante.valorDesconto()); // Calcula o valor do desconto e depois retira do valor inteiro do ingresso
 	}
 
 	@Override
 	public String toString() {
         // Adiciona as informações requeridas ao toString
-        return "\nCódigo do ingresso = " + codigo + "\nTelefone = " + telefone + "\nCódigo do evento = " + evento.getId() + "\nCPF do titular = " + participante.getCpf() + "\n--------------------";
+        return "\nCod = " + codigo + " Tel = " + telefone + " Cod Evento = " + evento.getId() + " CPF = " + participante.getCpf();
     }
-	
-	
 }

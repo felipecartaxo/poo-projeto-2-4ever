@@ -23,7 +23,13 @@ public class Teste0 {
 		
 		// Testando o método calcularPreco
 		Ingresso i1 = new Ingresso("1", "Show da Rihanna");
-		System.out.println(i1.calcularPreco());
 		
+		System.out.println(p1);
+		System.out.println(c1);
+		System.out.println(e1);
+		
+		System.out.println(e1.getCapacidade());
+		System.out.println(e1.quantidadeIngressos());
+		System.out.println(e1.totalArrecadado());
 	}
 }

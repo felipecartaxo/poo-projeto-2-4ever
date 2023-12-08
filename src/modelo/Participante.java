@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Participante {
+	
 	// Atributos
 	private String cpf;
 	private String nascimento;
@@ -27,7 +28,7 @@ public class Participante {
 		ingressos.remove(i);
 	}
 	
-	public Ingresso localizar(String codigo) {
+	public Ingresso localizar(String codigo) { // Verificar se este método é realmente necessário, visto que apenas segui o exemplo da classe Prateleteira
 		for(Ingresso i : ingressos) {
 			if(i.getCodigo().equals(codigo)) {
 				return i;
@@ -36,31 +37,33 @@ public class Participante {
 		return null;
 	}
 	
-	// Método para calcular a idade do participante
-	public int calcularIdade() {
+	public int calcularIdade() { // Método para calcular a idade do participante
 		DateTimeFormatter f;
-		f = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Formatando a idade
-		LocalDate dataNasc = LocalDate.parse(this.nascimento, f);
+		f = DateTimeFormatter.ofPattern("dd/MM/yyyy"); // Setando o tipo de formatação da data
+		
+		LocalDate dataNasc = LocalDate.parse(this.nascimento, f); // Aplicando a formatação à idade do participante
         LocalDate hoje = LocalDate.now(); // Obtendo a data atual
         Period periodo = Period.between(dataNasc, hoje); // Calculando a diferença entre as datas
         
-        return periodo.getYears(); // Retornando a idade em anos
+        return periodo.getYears(); // Retornando a idade (em anos)
 	}
 	
-	// Método para retornar o valor do desconto do participante
-	public double valorDesconto() {
-		if(calcularIdade() < 18) {
-			return 0.1;
-		}
-		else {
-			if(calcularIdade() < 60) {
-				return 1;
+	// Verificar se este método pode ser colocado na classe Evento - ainda precisa ser testado
+	// 
+	//Método para retornar o valor do desconto do participante
+		public double valorDesconto() {
+			if(calcularIdade() < 18) {
+				return 0.1; // Se for menor de idade, 10% de desconto
 			}
 			else {
-				return 0.2;
+				if(calcularIdade() < 60) {
+					return 0; // Se for maior de idade e não for idoso, o preço permanece normal
+				}
+				else {
+					return 0.2; // Se for idoso, 20% de desconto
+				}
 			}
 		}
-	}
 	
 	// Getters
 	public String getCpf() {
@@ -75,9 +78,18 @@ public class Participante {
 		return ingressos;
 	}
 	
+	// Setters
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public void setNascimento(String nascimento) {
+		this.nascimento = nascimento;
+	}
+	
 	// ToString
 	@Override
 	public String toString() {
-		return "Participante [cpf=" + cpf + ", nascimento=" + nascimento + ", ingressos=" + ingressos + "]";
+		return "Participante: CPF = " + cpf + "; Data nasc. = " + nascimento + "; Ingressos = " + ingressos + ";";
 	}
 }

@@ -143,4 +143,90 @@ public class Fachada {
 	    public static ArrayList<Ingresso> listarIngressos() {
 	        return repositorio.getIngressos();
 	    }
+	    
+	    // apagarEvento
+	    public static void apagarEvento(int id) throws Exception{
+	    	Evento e = repositorio.localizarEvento(id);
+
+	    	if (e == null) {
+	    		throw new Exception("Evento não encontrado"); // Lança exceção caso o evento não exista
+	    	}
+	    	if(e.quantidadeIngressos() > 0) {
+	    		throw new Exception("O evento possui ingressos");
+	    	}
+	    	
+	    	repositorio.remover(e);
+	    	repositorio.salvarObjetos();
+	    }
+	    
+	    // apagarEvento2
+	    public static void apagarEvento(int id) throws Exception {
+	        Evento evento = repositorio.localizarEvento(id);
+
+	        if (evento == null) {
+	            throw new Exception("Evento não encontrado");
+	        }
+
+	        // Remover todos os ingressos associados ao evento
+	        for (Ingresso ingresso : new ArrayList<>(evento.getIngressos())) {
+	            apagarIngresso(ingresso.getCodigo());
+	        }
+
+	        // Remover o evento do repositório
+	        repositorio.remover(evento);
+	        repositorio.salvarObjetos();
+	    }
+	    
+	    // apagarIngresso
+	    public static void apagarIngresso(String codigo) throws Exception{
+	        Ingresso i = repositorio.localizarIngresso(codigo);
+	        
+	        if(i == null) {
+	            throw new Exception("Ingresso não encontrado");
+	        }
+
+	        i.getEvento().remover(i); // Remove o ingresso do evento
+	        i.getParticipante().remover(i); // Remove o ingresso do participante
+	        
+	        repositorio.remover(i); // Remove o ingresso do repositório
+	        repositorio.salvarObjetos(); // Salva objetos no repositório
+	    }
+	    
+	    //apagarEvento2
+	    public static void apagarIngresso(String codigo) throws Exception {
+	        Ingresso ingresso = repositorio.localizarIngresso(codigo);
+
+	        if (ingresso == null) {
+	            throw new Exception("Ingresso não encontrado");
+	        }
+
+	        Evento evento = ingresso.getEvento();
+	        Participante participante = ingresso.getParticipante();
+
+	        // Remover o ingresso dos relacionamentos bidirecionais
+	        evento.remover(ingresso);
+	        participante.remover(ingresso);
+
+	        // Remover o ingresso do repositório
+	        repositorio.remover(ingresso);
+	        repositorio.salvarObjetos();
+	    }
+	    
+	    // apagarParticipante
+	    public static void apagarParticipante(String cpf) throws Exception {
+	        Participante participante = repositorio.localizarParticipante(cpf);
+
+	        if (participante == null) {
+	            throw new Exception("Participante não encontrado");
+	        }
+
+	        // Remover todos os ingressos associados ao participante
+	        for (Ingresso ingresso : new ArrayList<>(participante.getIngressos())) {
+	            apagarIngresso(ingresso.getCodigo());
+	        }
+
+	        // Remover o participante do repositório
+	        repositorio.remover(participante);
+	        repositorio.salvarObjetos();
+	    }
 	}

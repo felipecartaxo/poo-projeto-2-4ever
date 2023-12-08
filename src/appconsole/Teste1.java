@@ -18,7 +18,7 @@ public class Teste1 {
 			System.out.println("\ncriando participantes e convidados");
 			Fachada.criarParticipante("1111", "01/01/1960");
 			Fachada.criarParticipante("2222", "01/01/2000");
-			Fachada.criarParticipante("3333", "01/01/2010");
+			Fachada.criarParticipante("3333", "01/01/1910"); // Verificar se o desconto foi aplicado
 			
 			Fachada.criarConvidado("4444", "01/01/1960", "empresa1");
 			Fachada.criarConvidado("5555", "01/01/2000", "empresa2");
@@ -35,7 +35,7 @@ public class Teste1 {
 
 		try {
 			System.out.println("\ncriando eventos");
-			Fachada.criarEvento("24/11/2023","show da pisadinha",20,100.0);
+			Fachada.criarEvento("24/11/2023","show da pisadinha",2,100.0);
 			Fachada.criarEvento("24/06/2024","show de sao joao",20,200.0);
 			Fachada.criarEvento("01/01/2024","fake",20,0.0);
 			System.out.println("---------listagem de eventos");
@@ -69,14 +69,17 @@ public class Teste1 {
 						", evento preco=" + ing.getEvento().getPreco() + ", arrecadado=" + ing.getEvento().totalArrecadado() + 
 						", idade=" + ing.getParticipante().calcularIdade());
 
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("--->"+e.getMessage());
 		}
 
-//		try {
-//			System.out.println("\napagando evento");
-//			Fachada.apagarEvento(3);
-//
+		try {
+			System.out.println(Fachada.listarEventos());
+			System.out.println("\napagando evento");
+			Fachada.apagarEvento(3);
+			System.out.println(Fachada.listarEventos());
+
 //			System.out.println("\napagando participante");
 //			Fachada.apagarParticipante("7777");
 //
@@ -84,9 +87,9 @@ public class Teste1 {
 //			Fachada.apagarIngresso("1-1111");
 //			Fachada.apagarIngresso("2-6666");
 //
-//		} catch (Exception e) {
-//			System.out.println("--->"+e.getMessage());
-//		}
+		} catch (Exception e) {
+			System.out.println("--->"+e.getMessage());
+		}
 //
 //		try {
 //			System.out.println("\n---------listagem de participantes - final-----");
