@@ -116,7 +116,6 @@ public class Evento {
 	// ToString
 	@Override
 	public String toString() {
-		return "Evento: ID = " + id + ";" + " Data = " + data + ";" + " Desc = " + descricao + ";" + " Capac = " + capacidade
-				+ ";" + " Preco= R$ " + preco + ";" + " Ingressos = " + ingressos;
+		return "\nEvento ===> ID = " + id + " | Data = " + data + " | Desc = " + descricao + " | Capac = " + capacidade + " | Preco= R$ " + preco;
 	}
 }

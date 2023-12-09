@@ -46,7 +46,6 @@ public class Ingresso {
 
 	@Override
 	public String toString() {
-        // Adiciona as informações requeridas ao toString
-        return "\nCod = " + codigo + " Tel = " + telefone + " Cod Evento = " + evento.getId() + " CPF = " + participante.getCpf();
+        return "\nIngresso ===> Cod = " + codigo + " | Tel = " + telefone + " | Cod Evento = " + evento.getId() + " | CPF = " + participante.getCpf();
     }
 }

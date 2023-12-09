@@ -48,7 +48,7 @@ public class Teste1 {
 
 		try {
 			System.out.println("\ncriando ingressos");
-			Fachada.criarIngresso(1,"1111","988001101");
+			Fachada.criarIngresso(1,"1111","");
 			Fachada.criarIngresso(1,"2222","988001102");
 			Fachada.criarIngresso(1,"3333","988001103");
 			Fachada.criarIngresso(1,"4444","988001104");
@@ -61,6 +61,7 @@ public class Teste1 {
 			Fachada.criarIngresso(2,"5555","988001105");
 			Fachada.criarIngresso(2,"6666","988001106");
 			Fachada.criarIngresso(1,"7777","988001107");
+
 			System.out.println("---------listagem de ingressos");
 			System.out.println(Fachada.listarIngressos());
 			for(Ingresso ing : Fachada.listarIngressos()) 
@@ -83,9 +84,12 @@ public class Teste1 {
 //			System.out.println("\napagando participante");
 //			Fachada.apagarParticipante("7777");
 //
-//			System.out.println("\napagando ingresssos");
-//			Fachada.apagarIngresso("1-1111");
-//			Fachada.apagarIngresso("2-6666");
+			System.out.println("listando os ingressos antes de apagá-los");
+			System.out.println(Fachada.listarIngressos());
+			System.out.println("\napagando ingresssos");
+			Fachada.apagarIngresso("1-1111");
+			Fachada.apagarIngresso("2-6666");
+			System.out.println(Fachada.listarIngressos());
 //
 		} catch (Exception e) {
 			System.out.println("--->"+e.getMessage());

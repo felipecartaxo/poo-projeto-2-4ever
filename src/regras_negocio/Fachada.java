@@ -73,44 +73,15 @@ public class Fachada {
 	public static ArrayList<Evento> listarEventos() {
 		return repositorio.getEventos();
 	}
-	
-	// criarIngresso
-//	public static void criarIngresso(int id, String cpf, String telefone) throws Exception{
-//		String codigo = id + cpf;
-//		
-//		Evento e = repositorio.localizarEvento(id);
-//		Participante p = repositorio.localizarParticipante(cpf);
-//		
-//		if(e == null) {
-//			throw new Exception("Evento inexistente"); // Lança exceção caso não exista um evento relacionado com o id
-//		}
-//		if(p == null) {
-//			throw new Exception("Participante inexistente");
-//		}
-//		if(e.lotado()) {
-//			throw new Exception("Evento lotado"); // Lança exceção caso o evento esteja lotado
-//		}
-//		
-//		Ingresso i = new Ingresso(cpf, telefone); // Cria o ingresso propriamente dito
-//		i.setEvento(e); // Associando o evento ao ingresso
-//		e.adicionar(i); // Adicionando o ingresso à lista de ingressos do evento
-//		i.setParticipante(p);
-//		p.adicionar(i);
-//		
-//		repositorio.adicionar(i);; // Adiciona ingresso ao repositório
-//		repositorio.salvarObjetos();	
-//	}
-//	
-//	// listarIngressos
-//	public static ArrayList<Ingresso> listarIngressos() {
-//		return repositorio.getIngressos();
-//	}
 
 	//	criarIngresso
 	public static void criarIngresso(int id, String cpf, String telefone) throws Exception {
 		Evento e = repositorio.localizarEvento(id);
 		Participante p = repositorio.localizarParticipante(cpf);
-
+		
+			if (telefone == null || telefone.isEmpty()) {
+				throw new Exception("O número do telefone é obrigatório"); // Lança exceção, caso o número do telefone for nulo
+			}
 	        if (e == null) {
 	        	throw new Exception("Evento não encontrado"); // Lança exceção caso o evento não exista
 	        }
@@ -152,29 +123,11 @@ public class Fachada {
 	    		throw new Exception("Evento não encontrado"); // Lança exceção caso o evento não exista
 	    	}
 	    	if(e.quantidadeIngressos() > 0) {
-	    		throw new Exception("O evento possui ingressos");
+	    		throw new Exception("O evento possui ingressos"); // Caso o evento possua ingressos, não será possível apagá-lo e será lançada uma exceção
 	    	}
 	    	
 	    	repositorio.remover(e);
 	    	repositorio.salvarObjetos();
-	    }
-	    
-	    // apagarEvento2
-	    public static void apagarEvento(int id) throws Exception {
-	        Evento evento = repositorio.localizarEvento(id);
-
-	        if (evento == null) {
-	            throw new Exception("Evento não encontrado");
-	        }
-
-	        // Remover todos os ingressos associados ao evento
-	        for (Ingresso ingresso : new ArrayList<>(evento.getIngressos())) {
-	            apagarIngresso(ingresso.getCodigo());
-	        }
-
-	        // Remover o evento do repositório
-	        repositorio.remover(evento);
-	        repositorio.salvarObjetos();
 	    }
 	    
 	    // apagarIngresso
@@ -190,26 +143,6 @@ public class Fachada {
 	        
 	        repositorio.remover(i); // Remove o ingresso do repositório
 	        repositorio.salvarObjetos(); // Salva objetos no repositório
-	    }
-	    
-	    //apagarEvento2
-	    public static void apagarIngresso(String codigo) throws Exception {
-	        Ingresso ingresso = repositorio.localizarIngresso(codigo);
-
-	        if (ingresso == null) {
-	            throw new Exception("Ingresso não encontrado");
-	        }
-
-	        Evento evento = ingresso.getEvento();
-	        Participante participante = ingresso.getParticipante();
-
-	        // Remover o ingresso dos relacionamentos bidirecionais
-	        evento.remover(ingresso);
-	        participante.remover(ingresso);
-
-	        // Remover o ingresso do repositório
-	        repositorio.remover(ingresso);
-	        repositorio.salvarObjetos();
 	    }
 	    
 	    // apagarParticipante
