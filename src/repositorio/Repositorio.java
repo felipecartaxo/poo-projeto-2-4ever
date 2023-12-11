@@ -15,9 +15,9 @@ public class Repositorio {
 	private ArrayList<Participante> participantes = new ArrayList<>();
 	private ArrayList<Ingresso> ingressos = new ArrayList<>();
 	
-//	public Repositorio() {
-//		carregarObjetos();
-//	}
+	public Repositorio() {
+		carregarObjetos();
+	}
 	
 	public void adicionar(Evento e) {
 		eventos.add(e);

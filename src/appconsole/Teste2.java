@@ -27,74 +27,80 @@ public class Teste2 {
 		try {
 			Fachada.criarParticipante(cpf1,"01/01/2000");
 			Fachada.criarParticipante(cpf1,"01/01/2000");
-			System.out.println("*************1--->Nao lan�ou exce��o para: criar participante duplicado "); // ok
+			System.out.println("*************1--->Nao lan�ou exce��o para: criar participante duplicado "); 
 		}catch (Exception e) {System.out.println("1ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarParticipante("1000","");
-			System.out.println("*************2--->Nao lan�ou exce��o para: criar participante sem data "); // A ser implementado
+			System.out.println("*************2--->Nao lan�ou exce��o para: criar participante sem data "); 
 		}catch (Exception e) {System.out.println("2ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarConvidado("1001","01/01/2000", "");
-			System.out.println("*************3--->Nao lan�ou exce��o para: criar convidado sem empresa"); // A ser implementado
+			System.out.println("*************3--->Nao lan�ou exce��o para: criar convidado sem empresa"); 
 		}catch (Exception e) {System.out.println("3ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarEvento("", "teste", 10, 10);
-			System.out.println("*************4--->Nao lan�ou exce��o para: criar evento sem data"); // ok 
+			System.out.println("*************4--->Nao lan�ou exce��o para: criar evento sem data"); 
 		}catch (Exception e) {System.out.println("4ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarEvento("01/01/2000", "", 10, 10);
-			System.out.println("*************5--->Nao lan�ou exce��o para: criar evento sem descricao"); // ok 
+			System.out.println("*************5--->Nao lan�ou exce��o para: criar evento sem descricao"); 
 		}catch (Exception e) {System.out.println("5ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarEvento("01/01/2000", "teste", 1, 10);
-			System.out.println("*************6--->Nao lan�ou exce��o para: criar evento sem capacidade minima"); // ok
+			System.out.println("*************6--->Nao lan�ou exce��o para: criar evento sem capacidade minima"); 
 		}catch (Exception e) {System.out.println("6ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarEvento("01/01/2000", "teste", 2, -1);
-			System.out.println("*************7--->Nao lan�ou exce��o para: criar evento com preco negativo"); // ok
+			System.out.println("*************7--->Nao lan�ou exce��o para: criar evento com preco negativo"); 
 		}catch (Exception e) {System.out.println("7ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarIngresso(99,cpf1, "999999999");
-			System.out.println("*************8--->Nao lan�ou exce��o para: criar ingresso com id inexistente"); // ok
+			System.out.println("*************8--->Nao lan�ou exce��o para: criar ingresso com id inexistente"); 
 		}catch (Exception e) {System.out.println("8ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarIngresso(id,"9999000", "999999999");
-			System.out.println("*************9--->Nao lan�ou exce��o para: criar ingresso com cpf inexistente"); // ok
+			System.out.println("*************9--->Nao lan�ou exce��o para: criar ingresso com cpf inexistente"); 
 		}catch (Exception e) {System.out.println("9ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarIngresso(id,cpf1, "");
-			System.out.println("*************10--->Nao lan�ou exce��o para: criar ingresso com telefone inexistente"); // A ser implementado
+			System.out.println("*************10--->Nao lan�ou exce��o para: criar ingresso com telefone inexistente"); 
 		}catch (Exception e) {System.out.println("10ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarIngresso(id,cpf1, "999999999");
 			Fachada.criarIngresso(id,cpf1, "999999999");
-			System.out.println("*************11--->Nao lan�ou exce��o para: criar ingresso duplicado"); // A ser implementado
+			System.out.println("*************11--->Nao lan�ou exce��o para: criar ingresso duplicado"); 
 		}catch (Exception e) {System.out.println("11ok--->"+e.getMessage());}
 
 		try {
 			Fachada.criarIngresso(id,cpf2, "999999999");
 			Fachada.criarIngresso(id,cpf3, "999999999");
-			System.out.println("*************12--->Nao lan�ou exce��o para: criar ingresso alem da capacidade"); // ok
+			System.out.println("*************12--->Nao lan�ou exce��o para: criar ingresso alem da capacidade"); 
 		}catch (Exception e) {System.out.println("12ok--->"+e.getMessage());}
 
 		try {
 			Fachada.apagarEvento(id);
-			System.out.println("*************13--->Nao lan�ou exce��o para: apagar evento ainda com ingresso"); // ok
+			System.out.println("*************13--->Nao lan�ou exce��o para: apagar evento ainda com ingresso"); 
 		}catch (Exception e) {System.out.println("13ok--->"+e.getMessage());}
 
 		try {
 			Fachada.apagarParticipante(cpf1);
-			System.out.println("*************14--->Nao lan�ou exce��o para: apagar participante com ingresso em uso"); // A ser implementado
+			System.out.println("*************14--->Nao lan�ou exce��o para: apagar participante com ingresso em uso"); 
 		}catch (Exception e) {System.out.println("14ok--->"+e.getMessage());}
+
+
+
+
 	}
 }
+
+

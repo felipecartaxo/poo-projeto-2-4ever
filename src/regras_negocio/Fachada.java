@@ -165,8 +165,11 @@ public class Fachada {
 	public static void apagarParticipante(String cpf) throws Exception {
 		Participante p = repositorio.localizarParticipante(cpf);
 
-		if (p == null) {
+		if (p == null) { // Lança exceção caso o participante não seja encontrado
 			throw new Exception("Participante não encontrado");
+		}
+		if(p.getIngressos().size() > 0) { // Lança exceção se o participante ainda possuir ingressos
+			throw new Exception("O participante ainda possui ingresso");
 		}
 
 		// Verifica se o último ingresso do participante está ultrapassado

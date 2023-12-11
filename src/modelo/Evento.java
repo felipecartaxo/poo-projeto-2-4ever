@@ -42,7 +42,7 @@ public class Evento {
 	// Verifica se o evento está lotado
 	public boolean lotado() {
 		/*
-		if(ingressos.size() == capacidade) {
+		if(ingressos.size() >= capacidade) {
 			return true;
 		}
 		else {
