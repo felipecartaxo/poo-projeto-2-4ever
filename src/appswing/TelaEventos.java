@@ -29,6 +29,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Evento;
+import modelo.Ingresso;
 import regras_negocio.Fachada;
 
 public class TelaEventos {
@@ -37,11 +38,16 @@ public class TelaEventos {
     private JScrollPane scrollPane;
     private JLabel label;
     private JLabel label_2;
-    private JLabel label_3;
-    private JTextField textField;
-    private JButton button_1;
-    private JButton button;
-    private JButton button_2;
+    private JLabel labelData;
+    private JTextField textFieldData;
+    private JButton btnCriarEvento;
+    private JButton btnApagarEvento;
+    private JButton btnListarEventos;
+    private JTextField textFieldDescricao;
+    private JLabel lblPreco;
+    private JLabel lblCapacidade;
+    private JTextField textFieldPreco;
+    private JTextField textFieldCapacidade;
 
     public TelaEventos() {
         initialize();
@@ -56,7 +62,7 @@ public class TelaEventos {
                 listagem();
             }
         });
-        frame.setTitle("Eventos"); // Alteração: Prateleiras para Eventos
+        frame.setTitle("Eventos");
         frame.setBounds(100, 100, 659, 362);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -99,45 +105,52 @@ public class TelaEventos {
         label_2.setBounds(21, 216, 394, 14);
         frame.getContentPane().add(label_2);
 
-        label_3 = new JLabel("tamanho:");
-        label_3.setHorizontalAlignment(SwingConstants.RIGHT);
-        label_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        label_3.setBounds(21, 257, 71, 14);
-        frame.getContentPane().add(label_3);
+        labelData = new JLabel("Data:");
+        labelData.setHorizontalAlignment(SwingConstants.LEFT);
+        labelData.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        labelData.setBounds(21, 257, 71, 14);
+        frame.getContentPane().add(labelData);
 
-        textField = new JTextField();
-        textField.setFont(new Font("Dialog", Font.PLAIN, 12));
-        textField.setColumns(10);
-        textField.setBackground(Color.WHITE);
-        textField.setBounds(102, 254, 134, 20);
-        frame.getContentPane().add(textField);
+        textFieldData = new JTextField();
+        textFieldData.setFont(new Font("Dialog", Font.PLAIN, 12));
+        textFieldData.setColumns(10);
+        textFieldData.setBackground(Color.WHITE);
+        textFieldData.setBounds(97, 254, 134, 20);
+        frame.getContentPane().add(textFieldData);
 
-        button_1 = new JButton("Criar");
-        button_1.setToolTipText("");
-        button_1.addActionListener(new ActionListener() {
+        btnCriarEvento = new JButton("Criar evento");
+        btnCriarEvento.setToolTipText("");
+        btnCriarEvento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (textField.getText().isEmpty()) {
-                        label.setText("campo vazio");
+                    if (textFieldData.getText().isEmpty()) {
+                        label.setText("A data é obrigatória");
                         return;
                     }
-                    String data = textField.getText().trim(); // Alteração: Tamanho para Data
-                    Fachada.criarEvento(data, "Descrição Padrão", 100, 0.0); // Alteração: criarPrateleira para criarEvento
-                    label.setText("evento criado: "); // Alteração: prateleira criada para evento criado
+                    if (textFieldDescricao.getText().isEmpty()) {
+                        label.setText("A descrição é obrigatória");
+                        return;
+                    }
+                    
+                    String data = textFieldData.getText().trim();
+                    String descricao = textFieldDescricao.getText();
+                    double preco = Double.parseDouble(textFieldPreco.getText());
+                    int capacidade = Integer.parseInt(textFieldCapacidade.getText());
+                    Fachada.criarEvento(data, descricao, capacidade, preco);
+                    
+                    label.setText("Evento criado: ");
                     listagem();
-                } catch (NumberFormatException ex) {
-                    label.setText("formato numerico invalido");
                 } catch (Exception ex) {
                     label.setText(ex.getMessage());
                 }
             }
         });
-        button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        button_1.setBounds(258, 253, 86, 23);
-        frame.getContentPane().add(button_1);
+        btnCriarEvento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnCriarEvento.setBounds(462, 42, 160, 23);
+        frame.getContentPane().add(btnCriarEvento);
 
-        button = new JButton("Apagar Selecionado");
-        button.addActionListener(new ActionListener() {
+        btnApagarEvento = new JButton("Apagar evento");
+        btnApagarEvento.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
                     if (table.getSelectedRow() >= 0) {
@@ -147,7 +160,7 @@ public class TelaEventos {
                         int escolha = JOptionPane.showOptionDialog(null, "Confirma exclusão: " + id, "Alerta",
                                 JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
                         if (escolha == 0) {
-                            Fachada.apagarEvento(id); // Alteração: apagarPrateleira para apagarEvento
+                            Fachada.apagarEvento(id); // Apagar evento
                             label.setText("exclusão realizada");
                             listagem();
                         } else
@@ -159,35 +172,69 @@ public class TelaEventos {
                 }
             }
         });
-        button.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        button.setBounds(462, 98, 160, 23);
-        frame.getContentPane().add(button);
+        btnApagarEvento.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnApagarEvento.setBounds(462, 110, 160, 23);
+        frame.getContentPane().add(btnApagarEvento);
 
-        button_2 = new JButton("Listar");
-        button_2.addActionListener(new ActionListener() {
+        btnListarEventos = new JButton("Listar eventos");
+        btnListarEventos.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 listagem();
             }
         });
-        button_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        button_2.setBounds(462, 57, 160, 23);
-        frame.getContentPane().add(button_2);
+        btnListarEventos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnListarEventos.setBounds(462, 76, 160, 23);
+        frame.getContentPane().add(btnListarEventos);
+        
+        JLabel lblDescricao = new JLabel("Descrição:");
+        lblDescricao.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblDescricao.setBounds(21, 282, 71, 14);
+        frame.getContentPane().add(lblDescricao);
+        
+        textFieldDescricao = new JTextField();
+        textFieldDescricao.setBounds(97, 280, 134, 20);
+        frame.getContentPane().add(textFieldDescricao);
+        textFieldDescricao.setColumns(10);
+        
+        lblPreco = new JLabel("Preço:");
+        lblPreco.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblPreco.setBounds(298, 258, 46, 14);
+        frame.getContentPane().add(lblPreco);
+        
+        lblCapacidade = new JLabel("Capacidade:");
+        lblCapacidade.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblCapacidade.setBounds(298, 283, 77, 14);
+        frame.getContentPane().add(lblCapacidade);
+        
+        textFieldPreco = new JTextField();
+        textFieldPreco.setBounds(377, 255, 75, 20);
+        frame.getContentPane().add(textFieldPreco);
+        textFieldPreco.setColumns(10);
+        
+        textFieldCapacidade = new JTextField();
+        textFieldCapacidade.setColumns(10);
+        textFieldCapacidade.setBounds(377, 280, 75, 20);
+        frame.getContentPane().add(textFieldCapacidade);
     }
 
     public void listagem() {
         try {
-            List<Evento> lista = Fachada.listarEventos(); // Alteração: listarPrateleiras para listarEventos
+            List<Evento> lista = Fachada.listarEventos(); // Listar eventos
 
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Id");
-            model.addColumn("Data"); // Alteração: Tamanho para Data
-            model.addColumn("Descrição");
+            model.addColumn("Data");
             model.addColumn("Capacidade");
             model.addColumn("Preço");
+            model.addColumn("Quantidade de ingressos");
+            model.addColumn("Total arrecadado");
+            model.addColumn("Lotado");
+            
+            
 
             for (Evento evento : lista) {
-                model.addRow(new Object[] { evento.getId(), evento.getData(), evento.getDescricao(),
-                        evento.getCapacidade(), evento.getPreco() });
+                model.addRow(new Object[] { evento.getId(), evento.getData(), evento.getCapacidade(),
+                        evento.getPreco(), evento.quantidadeIngressos(), evento.totalArrecadado(), evento.lotado()});
             }
             table.setModel(model);
             label_2.setText("resultados: " + lista.size() + " linhas   - selecione uma linha");

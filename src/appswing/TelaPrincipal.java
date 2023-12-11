@@ -16,9 +16,9 @@ import javax.swing.SwingConstants;
 
 public class TelaPrincipal {
     private JFrame frame;
-    private JMenu mnEvento; // Alteração: mnPrateleira para mnEvento
-    private JMenu mnIngressos; // Adição: mnIngressos
-    private JMenu mnParticipantes; // Adição: mnParticipantes
+    private JMenu mnEvento;
+    private JMenu mnIngressos;
+    private JMenu mnParticipantes;
     private JLabel label;
     private JMenu menu;
     private JMenu menu_1;
@@ -42,7 +42,7 @@ public class TelaPrincipal {
 
     private void initialize() {
         frame = new JFrame();
-        frame.setTitle("Sistema 4Ever"); // Alteração: Sistema Almoxarifado para Sistema 4Ever
+        frame.setTitle("Sistema 4Ever");
         frame.setBounds(100, 100, 450, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
@@ -52,7 +52,7 @@ public class TelaPrincipal {
         label.setHorizontalAlignment(SwingConstants.CENTER);
         label.setText("Inicializando...");
         label.setBounds(0, 0, 450, 249);
-        ImageIcon imagem = new ImageIcon(getClass().getResource("/arquivos/imagem.png"));
+        ImageIcon imagem = new ImageIcon(getClass().getResource("/arquivos/imagem.jpg"));
         imagem = new ImageIcon(imagem.getImage().getScaledInstance(label.getWidth(), label.getHeight(), Image.SCALE_DEFAULT));
         label.setIcon(imagem);
         frame.getContentPane().add(label);
@@ -61,7 +61,7 @@ public class TelaPrincipal {
         JMenuBar menuBar = new JMenuBar();
         frame.setJMenuBar(menuBar);
 
-        mnEvento = new JMenu("Evento"); // Adição: mnEvento
+        mnEvento = new JMenu("Evento"); // Menu eventos
         mnEvento.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -69,25 +69,24 @@ public class TelaPrincipal {
         });
         menuBar.add(mnEvento);
 
-        mnIngressos = new JMenu("Ingressos"); // Adição: mnIngressos
+        mnIngressos = new JMenu("Ingressos"); // Menu ingressos
         mnIngressos.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Adicione a lógica desejada para lidar com o menu de Ingressos
-            }
+            	TelaIngressos tela = new TelaIngressos();            }
         });
         menuBar.add(mnIngressos);
 
-        mnParticipantes = new JMenu("Participantes"); // Adição: mnParticipantes
+        mnParticipantes = new JMenu("Participantes"); // Menu participantes
         mnParticipantes.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Adicione a lógica desejada para lidar com o menu de Participantes
+                TelaParticipantes tela = new TelaParticipantes();
             }
         });
         menuBar.add(mnParticipantes);
 
-        menu = new JMenu("Sobre");
+        menu = new JMenu("Sobre"); // Menu sobre
         menu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -96,7 +95,7 @@ public class TelaPrincipal {
         });
         menuBar.add(menu);
 
-        menu_1 = new JMenu("Sair");
+        menu_1 = new JMenu("Sair"); // Menu sair
         menu_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

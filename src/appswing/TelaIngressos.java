@@ -1,9 +1,3 @@
-/**********************************
- * IFPB - Curso Superior de Tec. em Sist. para Internet
- * POO
- * Prof. Fausto Maranh�o Ayres
- **********************************/
-
 package appswing;
 
 import java.awt.Color;
@@ -18,7 +12,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -29,265 +22,196 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import modelo.Produto;
+import modelo.Ingresso;
 import regras_negocio.Fachada;
 
-
 public class TelaIngressos {
-	private JDialog frame;
-	private JTable table;
-	private JScrollPane scrollPane;
-	private JButton button_1;
-	private JLabel label;
-	private JLabel label_1;
-	private JLabel label_2;
-	private JLabel label_4;
-	private JTextField textField_1;
-	private JButton button;
-	private JButton button_2;
-	private JButton button_3;
+    private JDialog frame;
+    private JTable tabela;
+    private JScrollPane scrollPane;
+    private JButton btnCriarIngresso;
+    private JButton btnApagarIngresso;
+    private JLabel label_1;
+    private JLabel label_2;
+    private JLabel log;
+    private JTextField textFieldCodigo;
+    private JTextField textFieldCpf;
+    private JTextField textFieldTelefone;
+    private JButton btnListarIngressos;
 
-	private JTextField textField;
-	private JButton button_4;
+    public TelaIngressos() {
+        initialize();
+    }
 
-	/**
-	 * Launch the application.
-	 */
-	//	public static void main(String[] args) {
-	//		EventQueue.invokeLater(new Runnable() {
-	//			public void run() {
-	//				try {
-	//					TelaReuniao window = new TelaReuniao();
-	//					window.frame.setVisible(true);
-	//				} catch (Exception e) {
-	//					e.printStackTrace();
-	//				}
-	//			}
-	//		});
-	//	}
+    private void initialize() {
+        frame = new JDialog();
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowOpened(WindowEvent e) {
+                listagem();
+            }
 
-	/**
-	 * Create the application.
-	 */
-	public TelaIngressos() {
-		initialize();
-	}
+            @Override
+            public void windowClosing(WindowEvent e) {
+                frame.dispose();
+            }
+        });
+        frame.setTitle("Ingressos");
+        frame.setBounds(100, 100, 575, 340);
+        frame.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JDialog();
-		frame.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowOpened(WindowEvent e) {
-				listagem();
-			}
-		});
-		frame.setTitle("Produtos");
-		frame.setBounds(100, 100, 575, 340);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+        scrollPane = new JScrollPane();
+        scrollPane.setBounds(26, 11, 315, 172);
+        frame.getContentPane().add(scrollPane);
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(26, 11, 315, 172);
-		frame.getContentPane().add(scrollPane);
+        tabela = new JTable() {
+            public boolean isCellEditable(int rowIndex, int vColIndex) {
+                return false;
+            }
+        };
+        tabela.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (tabela.getSelectedRow() >= 0)
+                    label_2.setText("selecionado=" + tabela.getValueAt(tabela.getSelectedRow(), 0));
+            }
+        });
+        tabela.setGridColor(Color.BLACK);
+        tabela.setRequestFocusEnabled(false);
+        tabela.setFocusable(false);
+        tabela.setBackground(Color.WHITE);
+        tabela.setFillsViewportHeight(true);
+        tabela.setRowSelectionAllowed(true);
+        tabela.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        scrollPane.setViewportView(tabela);
+        tabela.setBorder(new LineBorder(new Color(0, 0, 0)));
+        tabela.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tabela.setShowGrid(true);
+        tabela.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
-		table = new JTable() {
-			public boolean isCellEditable(int rowIndex, int vColIndex) {
-				return false;
-			}
-		};
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (table.getSelectedRow() >= 0) 
-					label_2.setText("selecionado="+ table.getValueAt( table.getSelectedRow(), 0));
-			}
-		});
-		table.setGridColor(Color.BLACK);
-		table.setRequestFocusEnabled(false);
-		table.setFocusable(false);
-		table.setBackground(Color.WHITE);
-		table.setFillsViewportHeight(true);
-		table.setRowSelectionAllowed(true);
-		table.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		scrollPane.setViewportView(table);
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setShowGrid(true);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        btnApagarIngresso = new JButton("Apagar ingresso");
+        btnApagarIngresso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnApagarIngresso.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (tabela.getSelectedRow() >= 0) {
+                        String codigo = (String) tabela.getValueAt(tabela.getSelectedRow(), 0);
+                        // confirmação
+                        Object[] options = {"Confirmar", "Cancelar"};
+                        int escolha = JOptionPane.showOptionDialog(null, "Confirma exclusão " + codigo, "Alerta",
+                                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
+                        if (escolha == 0) {
+                            Fachada.apagarIngresso(codigo);
+                            log.setText("exclusão realizada");
+                            listagem();
+                        } else
+                            log.setText("exclusão cancelada");
+                    } else
+                        log.setText("selecione uma linha");
+                } catch (Exception erro) {
+                    log.setText(erro.getMessage());
+                }
+            }
+        });
+        btnApagarIngresso.setBounds(380, 82, 160, 23);
+        frame.getContentPane().add(btnApagarIngresso);
 
-		button_1 = new JButton("Apagar Selecionado");
-		button_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (table.getSelectedRow() >= 0){
-						String nome = (String) table.getValueAt( table.getSelectedRow(), 0);
-						//confirma��o
-						Object[] options = { "Confirmar", "Cancelar" };
-						int escolha = JOptionPane.showOptionDialog(null, "Confirma exclus�o "+nome, "Alerta",
-								JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
-						if(escolha == 0) {
-							Fachada.apagarProduto(nome);
-							label.setText("exclus�o realizada");
-							listagem();
-						}
-						else
-							label.setText("exclus�o cancelada");
-					}
-					else
-						label.setText("selecione uma linha");
-				}
-				catch(Exception erro) {
-					label.setText(erro.getMessage());
-				}
-			}
-		});
-		button_1.setBounds(380, 49, 160, 23);
-		frame.getContentPane().add(button_1);
+        label_1 = new JLabel("Código:");
+        label_1.setHorizontalAlignment(SwingConstants.LEFT);
+        label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        label_1.setBounds(26, 220, 71, 14);
+        frame.getContentPane().add(label_1);
 
-		label = new JLabel("");
-		label.setForeground(Color.RED);
-		label.setBounds(26, 276, 514, 14);
-		frame.getContentPane().add(label);
+        label_2 = new JLabel("Telefone:");
+        label_2.setHorizontalAlignment(SwingConstants.LEFT);
+        label_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        label_2.setBounds(26, 272, 71, 14);
+        frame.getContentPane().add(label_2);
 
-		label_1 = new JLabel("nome:");
-		label_1.setHorizontalAlignment(SwingConstants.LEFT);
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_1.setBounds(26, 220, 71, 14);
-		frame.getContentPane().add(label_1);
+        log = new JLabel("selecione uma linha");
+        log.setBounds(26, 181, 315, 14);
+        frame.getContentPane().add(log);
 
-		label_2 = new JLabel("pre\u00E7o:");
-		label_2.setHorizontalAlignment(SwingConstants.LEFT);
-		label_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		label_2.setBounds(26, 245, 71, 14);
-		frame.getContentPane().add(label_2);
+        textFieldTelefone = new JTextField();
+        textFieldTelefone.setColumns(10);
+        textFieldTelefone.setBounds(92, 270, 105, 20);
+        frame.getContentPane().add(textFieldTelefone);
 
-		label_4 = new JLabel("selecione uma linha");
-		label_4.setBounds(26, 181, 315, 14);
-		frame.getContentPane().add(label_4);
+        btnCriarIngresso = new JButton("Criar ingresso");
+        btnCriarIngresso.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (textFieldCodigo.getText().isEmpty() || textFieldTelefone.getText().isEmpty()
+                            || textFieldCpf.getText().isEmpty()) {
+                        log.setText("campo vazio");
+                        return;
+                    }
+                    int idEvento = Integer.parseInt(textFieldCodigo.getText());
+                    String cpfParticipante = textFieldCpf.getText();
+                    String telefone = textFieldTelefone.getText();
+                    Fachada.criarIngresso(idEvento, cpfParticipante, telefone);
+                    log.setText("ingresso criado");
+                    listagem();
+                } catch (Exception ex) {
+                    log.setText(ex.getMessage());
+                }
+            }
+        });
+        btnCriarIngresso.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnCriarIngresso.setBounds(380, 48, 160, 23);
+        frame.getContentPane().add(btnCriarIngresso);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(81, 243, 105, 20);
-		frame.getContentPane().add(textField_1);
+        textFieldCodigo = new JTextField();
+        textFieldCodigo.setColumns(10);
+        textFieldCodigo.setBounds(92, 218, 105, 20);
+        frame.getContentPane().add(textFieldCodigo);
 
-		button = new JButton("Criar");
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if(textField.getText().isEmpty() ||  textField_1.getText().isEmpty()) {
-						label.setText("campo vazio");
-						return;
-					}
-					String nome = textField.getText();
-					String preco = textField_1.getText();
-					Fachada.criarProduto(nome, Double.parseDouble(preco));
-					label.setText("produto criado");
-					listagem();
-				}
-				catch(Exception ex) {
-					label.setText(ex.getMessage());
-				}
-			}
-		});
-		button.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button.setBounds(208, 216, 95, 23);
-		frame.getContentPane().add(button);
+        btnListarIngressos = new JButton("Listar ingressos");
+        btnListarIngressos.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                listagem();
+            }
+        });
+        btnListarIngressos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnListarIngressos.setBounds(380, 14, 160, 23);
+        frame.getContentPane().add(btnListarIngressos);
 
-		button_2 = new JButton("Remover da Prateleira");
-		button_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (table.getSelectedRow() >= 0){
-						String nome = (String) table.getValueAt( table.getSelectedRow(), 0);
-						Fachada.removerProdutoPrateleira(nome);
-						label.setText("removeu da prateleita de " + nome);
-						listagem();
-					}
-					else
-						label.setText("selecione uma linha");
-				}
-				catch(Exception erro) {
-					label.setText(erro.getMessage());
-				}
+        JLabel lblNewLabel = new JLabel("CPF:");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblNewLabel.setBounds(26, 245, 46, 14);
+        frame.getContentPane().add(lblNewLabel);
 
-			}
-		});
-		button_2.setToolTipText("");
-		button_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_2.setBounds(380, 119, 160, 23);
-		frame.getContentPane().add(button_2);
+        textFieldCpf = new JTextField();
+        textFieldCpf.setBounds(92, 245, 105, 20);
+        frame.getContentPane().add(textFieldCpf);
+        textFieldCpf.setColumns(10);
 
-		button_3 = new JButton("Inserir na Prateleira");
-		button_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					if (table.getSelectedRow() >= 0){
-						String nome = (String) table.getValueAt( table.getSelectedRow(), 0);
-						String id = JOptionPane.showInputDialog("id da prateleira");
-						Fachada.inserirProdutoPrateleira(Integer.parseInt(id), nome);
-						label.setText("inseriu na prateleita " + id);
-						listagem();
-					}
-					else
-						label.setText("selecione uma linha");
-				}
-				catch(Exception erro) {
-					label.setText(erro.getMessage());
-				}
-			}
-		});
-		button_3.setToolTipText("");
-		button_3.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_3.setBounds(380, 83, 160, 23);
-		frame.getContentPane().add(button_3);
+        frame.setModal(true);
+        frame.setVisible(true);
+    }
 
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(81, 218, 105, 20);
-		frame.getContentPane().add(textField);
-		
-		button_4 = new JButton("Listar");
-		button_4.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				listagem();
-			}
-		});
-		button_4.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		button_4.setBounds(380, 14, 160, 23);
-		frame.getContentPane().add(button_4);
+    public void listagem() {
+        try {
+            List<Ingresso> lista = Fachada.listarIngressos();
 
-		frame.setModal(true);
-		frame.setVisible(true);
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Código");
+            model.addColumn("Telefone");
+            model.addColumn("Evento");
 
-	}
+            for (Ingresso i : lista) {
+                model.addRow(new Object[] { i.getCodigo(), i.getTelefone(), i.getEvento().getId() });
+            }
 
-	public void listagem () {
-		try{
-			List<Produto> lista = Fachada.listarProdutos();
+            tabela.setModel(model);
+            log.setText("resultados: " + lista.size() + " linhas  - selecione uma linha");
 
-			DefaultTableModel model = new DefaultTableModel();
-			model.addColumn("Nome");
-			model.addColumn("Preco");
-			model.addColumn("Prateleira");
-			for(Produto p : lista)
-				if(p.getPrateleira()==null)
-					model.addRow(new Object[]{  p.getNome(), p.getPreco(), "sem prateleira" });
-				else
-					model.addRow(new Object[]{  p.getNome(), p.getPreco(), p.getPrateleira().getId() });
-
-			table.setModel(model);
-			label_4.setText("resultados: "+lista.size()+ " linhas  - selecione uma linha");
-			
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); 		//desabilita
-			table.getColumnModel().getColumn(1).setMaxWidth(50);	
-			table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS); //habilita
-		}
-		catch(Exception erro){
-			label.setText(erro.getMessage());
-		}
-	}
+            tabela.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            tabela.getColumnModel().getColumn(1).setMaxWidth(150);
+            tabela.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        } catch (Exception erro) {
+            log.setText(erro.getMessage());
+        }
+    }
 }
