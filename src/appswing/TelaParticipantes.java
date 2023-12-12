@@ -39,8 +39,8 @@ public class TelaParticipantes {
     private JTable table;
     private JScrollPane scrollPane;
     private JLabel label;
-    private JLabel label_2;
-    private JLabel labelCpf;
+    private JLabel log;
+    private JLabel lblCpf;
     private JTextField textFieldCpf;
     private JButton btnCriarParticipante;
     private JButton btnApagarParticipante;
@@ -80,7 +80,7 @@ public class TelaParticipantes {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (table.getSelectedRow() >= 0)
-                    label_2.setText("selecionado=" + table.getValueAt(table.getSelectedRow(), 0));
+                    log.setText("selecionado=" + table.getValueAt(table.getSelectedRow(), 0));
             }
         });
         table.setGridColor(Color.BLACK);
@@ -101,15 +101,15 @@ public class TelaParticipantes {
         label.setBounds(21, 296, 587, 14);
         frame.getContentPane().add(label);
 
-        label_2 = new JLabel("selecione");
-        label_2.setBounds(21, 216, 394, 14);
-        frame.getContentPane().add(label_2);
+        log = new JLabel("selecione");
+        log.setBounds(21, 216, 394, 14);
+        frame.getContentPane().add(log);
 
-        labelCpf = new JLabel("CPF:");
-        labelCpf.setHorizontalAlignment(SwingConstants.LEFT);
-        labelCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        labelCpf.setBounds(21, 257, 71, 14);
-        frame.getContentPane().add(labelCpf);
+        lblCpf = new JLabel("CPF:");
+        lblCpf.setHorizontalAlignment(SwingConstants.LEFT);
+        lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblCpf.setBounds(21, 257, 71, 14);
+        frame.getContentPane().add(lblCpf);
 
         textFieldCpf = new JTextField();
         textFieldCpf.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -233,7 +233,7 @@ public class TelaParticipantes {
             }
 
             table.setModel(model);
-            label_2.setText("resultados: " + lista.size() + " linhas - selecione uma linha");
+            log.setText("resultados: " + lista.size() + " linhas - selecione uma linha");
 
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.getColumnModel().getColumn(0).setMaxWidth(50);

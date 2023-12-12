@@ -31,10 +31,10 @@ public class TelaIngressos {
     private JScrollPane scrollPane;
     private JButton btnCriarIngresso;
     private JButton btnApagarIngresso;
-    private JLabel label_1;
-    private JLabel label_2;
+    private JLabel lblId;
+    private JLabel lblTelefone;
     private JLabel log;
-    private JTextField textFieldCodigo;
+    private JTextField textFieldId;
     private JTextField textFieldCpf;
     private JTextField textFieldTelefone;
     private JButton btnListarIngressos;
@@ -74,7 +74,7 @@ public class TelaIngressos {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (tabela.getSelectedRow() >= 0)
-                    label_2.setText("selecionado=" + tabela.getValueAt(tabela.getSelectedRow(), 0));
+                    lblTelefone.setText("selecionado=" + tabela.getValueAt(tabela.getSelectedRow(), 0));
             }
         });
         tabela.setGridColor(Color.BLACK);
@@ -117,17 +117,17 @@ public class TelaIngressos {
         btnApagarIngresso.setBounds(380, 82, 160, 23);
         frame.getContentPane().add(btnApagarIngresso);
 
-        label_1 = new JLabel("Código:");
-        label_1.setHorizontalAlignment(SwingConstants.LEFT);
-        label_1.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        label_1.setBounds(26, 220, 71, 14);
-        frame.getContentPane().add(label_1);
+        lblId = new JLabel("ID:");
+        lblId.setHorizontalAlignment(SwingConstants.LEFT);
+        lblId.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblId.setBounds(26, 220, 71, 14);
+        frame.getContentPane().add(lblId);
 
-        label_2 = new JLabel("Telefone:");
-        label_2.setHorizontalAlignment(SwingConstants.LEFT);
-        label_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        label_2.setBounds(26, 272, 71, 14);
-        frame.getContentPane().add(label_2);
+        lblTelefone = new JLabel("Telefone:");
+        lblTelefone.setHorizontalAlignment(SwingConstants.LEFT);
+        lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblTelefone.setBounds(26, 272, 71, 14);
+        frame.getContentPane().add(lblTelefone);
 
         log = new JLabel("selecione uma linha");
         log.setBounds(26, 181, 315, 14);
@@ -142,12 +142,12 @@ public class TelaIngressos {
         btnCriarIngresso.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (textFieldCodigo.getText().isEmpty() || textFieldTelefone.getText().isEmpty()
+                    if (textFieldId.getText().isEmpty() || textFieldTelefone.getText().isEmpty()
                             || textFieldCpf.getText().isEmpty()) {
                         log.setText("campo vazio");
                         return;
                     }
-                    int idEvento = Integer.parseInt(textFieldCodigo.getText());
+                    int idEvento = Integer.parseInt(textFieldId.getText());
                     String cpfParticipante = textFieldCpf.getText();
                     String telefone = textFieldTelefone.getText();
                     Fachada.criarIngresso(idEvento, cpfParticipante, telefone);
@@ -162,10 +162,10 @@ public class TelaIngressos {
         btnCriarIngresso.setBounds(380, 48, 160, 23);
         frame.getContentPane().add(btnCriarIngresso);
 
-        textFieldCodigo = new JTextField();
-        textFieldCodigo.setColumns(10);
-        textFieldCodigo.setBounds(92, 218, 105, 20);
-        frame.getContentPane().add(textFieldCodigo);
+        textFieldId = new JTextField();
+        textFieldId.setColumns(10);
+        textFieldId.setBounds(92, 218, 105, 20);
+        frame.getContentPane().add(textFieldId);
 
         btnListarIngressos = new JButton("Listar ingressos");
         btnListarIngressos.addActionListener(new ActionListener() {
@@ -177,10 +177,10 @@ public class TelaIngressos {
         btnListarIngressos.setBounds(380, 14, 160, 23);
         frame.getContentPane().add(btnListarIngressos);
 
-        JLabel lblNewLabel = new JLabel("CPF:");
-        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        lblNewLabel.setBounds(26, 245, 46, 14);
-        frame.getContentPane().add(lblNewLabel);
+        JLabel lblCpf = new JLabel("CPF:");
+        lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        lblCpf.setBounds(26, 245, 46, 14);
+        frame.getContentPane().add(lblCpf);
 
         textFieldCpf = new JTextField();
         textFieldCpf.setBounds(92, 245, 105, 20);
@@ -198,10 +198,13 @@ public class TelaIngressos {
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Código");
             model.addColumn("Telefone");
-            model.addColumn("Evento");
+            model.addColumn("Preço do ing");
+            model.addColumn("Preço do evento");
+            model.addColumn("Data do evento");
+            model.addColumn("Idade do participante");
 
             for (Ingresso i : lista) {
-                model.addRow(new Object[] { i.getCodigo(), i.getTelefone(), i.getEvento().getId() });
+                model.addRow(new Object[] { i.getCodigo(), i.getTelefone(), i.calcularPreco(), i.getEvento().getPreco(), i.getEvento().getData(), i.getParticipante().calcularIdade()});
             }
 
             tabela.setModel(model);
