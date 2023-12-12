@@ -14,6 +14,7 @@ public class Teste1 {
 
 	public Teste1() {
 
+
 		try {
 			System.out.println("\ncriando participantes e convidados");
 			Fachada.criarParticipante("1111", "01/01/1960");
@@ -101,6 +102,7 @@ public class Teste1 {
 						", evento preco=" + ing.getEvento().getPreco() + ", arrecadado=" + ing.getEvento().totalArrecadado() + 
 						", idade=" + ing.getParticipante().calcularIdade());
 
+
 		} catch (Exception e) {
 			System.out.println("--->"+e.getMessage());
 		}	
@@ -112,3 +114,5 @@ public class Teste1 {
 		new Teste1();
 	}
 }
+
+

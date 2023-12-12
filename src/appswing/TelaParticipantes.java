@@ -28,6 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import modelo.Convidado;
 //import modelo.Evento;
 //import modelo.Ingresso;
 import modelo.Participante;
@@ -133,10 +134,17 @@ public class TelaParticipantes {
                     
                     String cpf = textFieldCpf.getText();
                     String dataNasc = textFieldNascimento.getText();
+                    String empresa = textFieldEmpresa.getText();
                     
-                    Fachada.criarParticipante(cpf, dataNasc); // Criar participante
+                    if(empresa.isEmpty()) {
+                        Fachada.criarParticipante(cpf, dataNasc); // Criar participante
+                        label.setText("Participante cadastrado: ");
+                    }
+                    else {
+                    	Fachada.criarConvidado(cpf, dataNasc, empresa); // Criar convidado
+                    	label.setText("Convidado cadastrado: ");
+                    }
                     
-                    label.setText("Participante cadastrado: ");
                     listagem();
                 } catch (Exception ex) {
                     label.setText(ex.getMessage());
@@ -206,18 +214,24 @@ public class TelaParticipantes {
     }
 
     public void listagem() {
-        try {
+    	try {
             List<Participante> lista = Fachada.listarParticipantes(); // Listar participantes
 
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("CPF");
-            model.addColumn("Data de nascimento");
+            model.addColumn("Data de nasc");
             model.addColumn("Idade");
-            // model.addColumn("Empresa");
+            model.addColumn("Empresa");
 
             for (Participante participante : lista) {
-                model.addRow(new Object[] { participante.getCpf(), participante.getNascimento(), participante.calcularIdade()});
+                if (participante instanceof Convidado) {
+                    Convidado convidado = (Convidado) participante;
+                    model.addRow(new Object[]{participante.getCpf(), participante.getNascimento(), participante.calcularIdade(), convidado.getEmpresa()});
+                } else {
+                    model.addRow(new Object[]{participante.getCpf(), participante.getNascimento(), participante.calcularIdade(), ""});
+                }
             }
+
             table.setModel(model);
             label_2.setText("resultados: " + lista.size() + " linhas - selecione uma linha");
 

@@ -57,7 +57,7 @@ public class Fachada {
 	// criarEvento
 	public static void criarEvento(String data, String descricao, int capacidade, double preco) throws Exception{
 
-		// O evento pode ter preço 0 (nesse caso, seria considerado um evento beneficente
+		// O evento pode ter preço 0 (nesse caso, seria considerado um evento beneficente)
 		if(preco < 0) {
 			throw new Exception("Preço negativo"); // Lança exceção caso o preço for negativo
 		}
@@ -73,6 +73,7 @@ public class Fachada {
 		
 		int id = repositorio.gerarId();
 		Evento e = new Evento(id, data, descricao, capacidade, preco);
+		
 		repositorio.adicionar(e);
 		repositorio.salvarObjetos();
 	}
