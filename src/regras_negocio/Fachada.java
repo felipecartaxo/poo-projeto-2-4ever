@@ -56,6 +56,7 @@ public class Fachada {
 	
 	// criarEvento
 	public static void criarEvento(String data, String descricao, int capacidade, double preco) throws Exception{
+
 		// O evento pode ter preço 0 (nesse caso, seria considerado um evento beneficente
 		if(preco < 0) {
 			throw new Exception("Preço negativo"); // Lança exceção caso o preço for negativo
@@ -108,7 +109,6 @@ public class Fachada {
 		
 		// Criando o ingresso propriamente dito
 		Ingresso ingresso = new Ingresso(codigo, telefone);
-
 	        
 		// Configurar relacionamento bidirecional
 		ingresso.setEvento(e);
@@ -161,16 +161,15 @@ public class Fachada {
 	}
 	    
 	// apagarParticipante
-	    
 	public static void apagarParticipante(String cpf) throws Exception {
 		Participante p = repositorio.localizarParticipante(cpf);
 
 		if (p == null) { // Lança exceção caso o participante não seja encontrado
 			throw new Exception("Participante não encontrado");
 		}
-		if(p.getIngressos().size() > 0) { // Lança exceção se o participante ainda possuir ingressos
-			throw new Exception("O participante ainda possui ingresso");
-		}
+//		if(p.getIngressos().size() > 0) { // Lança exceção se o participante ainda possuir ingressos
+//			throw new Exception("O participante ainda possui ingresso");
+//		}
 
 		// Verifica se o último ingresso do participante está ultrapassado
 		Ingresso ultimoIngresso;

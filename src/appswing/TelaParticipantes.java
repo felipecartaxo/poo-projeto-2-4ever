@@ -132,7 +132,7 @@ public class TelaParticipantes {
                     }
                     
                     String cpf = textFieldCpf.getText();
-                    String dataNasc = textFieldNascimento.getText().trim();
+                    String dataNasc = textFieldNascimento.getText();
                     
                     Fachada.criarParticipante(cpf, dataNasc); // Criar participante
                     
@@ -219,7 +219,7 @@ public class TelaParticipantes {
                 model.addRow(new Object[] { participante.getCpf(), participante.getNascimento(), participante.calcularIdade()});
             }
             table.setModel(model);
-            label_2.setText("resultados: " + lista.size() + " linhas   - selecione uma linha");
+            label_2.setText("resultados: " + lista.size() + " linhas - selecione uma linha");
 
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.getColumnModel().getColumn(0).setMaxWidth(50);

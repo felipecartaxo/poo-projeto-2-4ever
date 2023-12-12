@@ -43,7 +43,7 @@ public class Ingresso {
 	}
 	
 	// Métodos
-	public double calcularPreco() { // A ser testado
+	public double calcularPreco() {
 		return evento.getPreco() - (evento.getPreco() * participante.valorDesconto()); // Calcula o valor do desconto e depois retira do valor inteiro do ingresso
 	}
 	

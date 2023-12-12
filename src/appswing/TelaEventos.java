@@ -132,7 +132,7 @@ public class TelaEventos {
                         return;
                     }
                     
-                    String data = textFieldData.getText().trim();
+                    String data = textFieldData.getText();
                     String descricao = textFieldDescricao.getText();
                     double preco = Double.parseDouble(textFieldPreco.getText());
                     int capacidade = Integer.parseInt(textFieldCapacidade.getText());
