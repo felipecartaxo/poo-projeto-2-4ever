@@ -175,15 +175,15 @@ public class Fachada {
 		// Verifica se o último ingresso do participante está ultrapassado
 		Ingresso ultimoIngresso;
 
-		if (p.getIngressos().isEmpty()) { // Talvez essa parte possa ser removida para que pare de aparecer o erro "ultimoIngresso" is null
+		if (p.getIngressos().isEmpty()) {
 			ultimoIngresso = null;
 		}
 		else {
 			ultimoIngresso = p.getIngressos().get(p.getIngressos().size() - 1);
 		}
 
-		if (ultimoIngresso.verificaIngressoUltrapassado()) {
-			throw new Exception("O último ingresso não está ultrapassado");
+		if (ultimoIngresso != null && ultimoIngresso.verificaIngressoUltrapassado()) {
+		    throw new Exception("O último ingresso não está ultrapassado");
 		}
 
 		// Remove todos os ingressos associados ao participante

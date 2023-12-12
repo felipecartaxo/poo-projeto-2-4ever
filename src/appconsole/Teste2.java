@@ -96,11 +96,5 @@ public class Teste2 {
 			Fachada.apagarParticipante(cpf1);
 			System.out.println("*************14--->Nao lan�ou exce��o para: apagar participante com ingresso em uso"); 
 		}catch (Exception e) {System.out.println("14ok--->"+e.getMessage());}
-
-
-
-
 	}
 }
-
-

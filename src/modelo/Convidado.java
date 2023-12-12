@@ -40,6 +40,6 @@ public class Convidado extends Participante {
 	// ToString
 	@Override
 	public String toString() {
-		return "Convidado ===> CPF = " + getCpf() + " | Data nasc. = " + getNascimento() + " | Emp = " + empresa + " | Ingressos = " + getIngressos() + ";";
+		return "Convidado: CPF = " + getCpf() + "; Data nasc. = " + getNascimento() + "; Emp = " + empresa + "; Ingressos = " + getIngressos() + ";";
 	}
 }

@@ -58,6 +58,6 @@ public class Ingresso {
 
 	@Override
 	public String toString() {
-        return "\nIngresso ===> Cod = " + codigo + " | Tel = " + telefone + " | Cod Evento = " + evento.getId() + " | CPF = " + participante.getCpf();
+        return "Ingresso: Cod = " + codigo + "; Tel = " + telefone + "; Cod Evento = " + evento.getId() + "; CPF = " + participante.getCpf();
     }
 }

@@ -90,6 +90,6 @@ public class Participante {
 	// ToString
 	@Override
 	public String toString() {
-		return "Participante ===> CPF = " + cpf + " | Data nasc. = " + nascimento + " | Ingressos = " + ingressos;
+		return "Participante: CPF = " + cpf + "; Data nasc. = " + nascimento + "; Ingressos = " + ingressos + ";";
 	}
 }
