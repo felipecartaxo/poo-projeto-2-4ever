@@ -226,18 +226,17 @@ public class TelaEventos {
         	public void actionPerformed(ActionEvent e) {
         		try {
 	        		ArrayList<Ingresso> ingressos = Fachada.listarIngressos();
-	        		StringBuilder detalhesIngressos = new StringBuilder("Ingressos:\n");
+	        		StringBuilder relacaoIngressos = new StringBuilder("Relação dos ingressos:\n--------------------\n");
 
 	                for (Ingresso ingresso : ingressos) {
-	                    detalhesIngressos.append("Código: ").append(ingresso.getCodigo()).append(", Telefone: ")
+	                    relacaoIngressos.append("Código: ").append(ingresso.getCodigo()).append(", Telefone: ")
 	                            .append(ingresso.getTelefone()).append("\n");
 	                }
 
-	                // log.setText(detalhesIngressos.toString());
-	                JOptionPane.showMessageDialog(null, detalhesIngressos.toString(), "Detalhes dos Ingressos", JOptionPane.INFORMATION_MESSAGE);        		}
+	                JOptionPane.showMessageDialog(null, relacaoIngressos.toString(), "Detalhes dos Ingressos", JOptionPane.INFORMATION_MESSAGE);        		}
         		
         		catch (Exception erro) {
-                    log.setText("Selecione um evento para ver os detalhes dos ingressos.");
+                    label.setText(erro.getMessage());
         		}
         	}
         });

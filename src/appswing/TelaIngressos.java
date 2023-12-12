@@ -39,7 +39,6 @@ public class TelaIngressos {
     private JTextField textFieldCpf;
     private JTextField textFieldTelefone;
     private JButton btnListarIngressos;
-    private JButton btnExibirIngressos;
 
     public TelaIngressos() {
         initialize();
@@ -188,21 +187,6 @@ public class TelaIngressos {
         textFieldCpf.setBounds(92, 245, 105, 20);
         frame.getContentPane().add(textFieldCpf);
         textFieldCpf.setColumns(10);
-        
-        btnExibirIngressos = new JButton("Exibir ingressos");
-        btnExibirIngressos.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-                List<Evento> lista = Fachada.listarEventos(); // Listar ingressos
-                
-                for(Evento evento : lista) {
-                	
-                }
-
-        	}
-        });
-        btnExibirIngressos.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        btnExibirIngressos.setBounds(380, 116, 160, 23);
-        frame.getContentPane().add(btnExibirIngressos);
 
         frame.setModal(true);
         frame.setVisible(true);
