@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -31,13 +32,14 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Evento;
 import modelo.Ingresso;
 import regras_negocio.Fachada;
+import repositorio.Repositorio;
 
 public class TelaEventos {
     private JFrame frame;
     private JTable table;
     private JScrollPane scrollPane;
     private JLabel label;
-    private JLabel label_2;
+    private JLabel log;
     private JLabel labelData;
     private JTextField textFieldData;
     private JButton btnCriarEvento;
@@ -48,6 +50,9 @@ public class TelaEventos {
     private JLabel lblCapacidade;
     private JTextField textFieldPreco;
     private JTextField textFieldCapacidade;
+    private JButton btnExibirIngressos;
+    
+    public Repositorio repositorio;
 
     public TelaEventos() {
         initialize();
@@ -80,7 +85,7 @@ public class TelaEventos {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (table.getSelectedRow() >= 0)
-                    label_2.setText("selecionado=" + table.getValueAt(table.getSelectedRow(), 0));
+                    log.setText("selecionado=" + table.getValueAt(table.getSelectedRow(), 0));
             }
         });
         table.setGridColor(Color.BLACK);
@@ -101,9 +106,9 @@ public class TelaEventos {
         label.setBounds(21, 296, 587, 14);
         frame.getContentPane().add(label);
 
-        label_2 = new JLabel("selecione");
-        label_2.setBounds(21, 216, 394, 14);
-        frame.getContentPane().add(label_2);
+        log = new JLabel("selecione");
+        log.setBounds(21, 216, 394, 14);
+        frame.getContentPane().add(log);
 
         labelData = new JLabel("Data:");
         labelData.setHorizontalAlignment(SwingConstants.LEFT);
@@ -215,6 +220,30 @@ public class TelaEventos {
         textFieldCapacidade.setColumns(10);
         textFieldCapacidade.setBounds(377, 280, 75, 20);
         frame.getContentPane().add(textFieldCapacidade);
+        
+        btnExibirIngressos = new JButton("Exibir ingressos");
+        btnExibirIngressos.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+	        		ArrayList<Ingresso> ingressos = Fachada.listarIngressos();
+	        		StringBuilder detalhesIngressos = new StringBuilder("Ingressos:\n");
+
+	                for (Ingresso ingresso : ingressos) {
+	                    detalhesIngressos.append("Código: ").append(ingresso.getCodigo()).append(", Telefone: ")
+	                            .append(ingresso.getTelefone()).append("\n");
+	                }
+
+	                // log.setText(detalhesIngressos.toString());
+	                JOptionPane.showMessageDialog(null, detalhesIngressos.toString(), "Detalhes dos Ingressos", JOptionPane.INFORMATION_MESSAGE);        		}
+        		
+        		catch (Exception erro) {
+                    log.setText("Selecione um evento para ver os detalhes dos ingressos.");
+        		}
+        	}
+        });
+        btnExibirIngressos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnExibirIngressos.setBounds(462, 144, 160, 23);
+        frame.getContentPane().add(btnExibirIngressos);
     }
 
     public void listagem() {
@@ -237,7 +266,7 @@ public class TelaEventos {
                         evento.getPreco(), evento.quantidadeIngressos(), evento.totalArrecadado(), evento.lotado()});
             }
             table.setModel(model);
-            label_2.setText("resultados: " + lista.size() + " linhas   - selecione uma linha");
+            log.setText("resultados: " + lista.size() + " linhas   - selecione uma linha");
 
             table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
             table.getColumnModel().getColumn(0).setMaxWidth(50);

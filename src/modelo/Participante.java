@@ -48,22 +48,20 @@ public class Participante {
         return periodo.getYears(); // Retornando a idade (em anos)
 	}
 	
-	// Verificar se este método pode ser colocado na classe Evento - ainda precisa ser testado
-	// 
-	//Método para retornar o valor do desconto do participante
-		public double valorDesconto() {
-			if(calcularIdade() < 18) {
-				return 0.1; // Se for menor de idade, 10% de desconto
+	//Método auxiliar para retornar o valor do desconto do participante
+	public double valorDesconto() {
+		if(calcularIdade() < 18) {
+			return 0.1; // Se for menor de idade, 10% de desconto
+		}
+		else {
+			if(calcularIdade() < 60) {
+				return 0; // Se for maior de idade e não for idoso, o preço permanece normal
 			}
 			else {
-				if(calcularIdade() < 60) {
-					return 0; // Se for maior de idade e não for idoso, o preço permanece normal
-				}
-				else {
-					return 0.2; // Se for idoso, 20% de desconto
-				}
+				return 0.2; // Se for idoso, 20% de desconto
 			}
 		}
+	}
 	
 	// Getters
 	public String getCpf() {
