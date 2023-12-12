@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Convidado;
+import modelo.Ingresso;
 //import modelo.Evento;
 //import modelo.Ingresso;
 import modelo.Participante;
@@ -48,6 +50,7 @@ public class TelaParticipantes {
     private JTextField textFieldNascimento;
     private JLabel lblEmpresa;
     private JTextField textFieldEmpresa;
+    private JButton btnExibirIngressos;
 
     public TelaParticipantes() {
         initialize();
@@ -211,6 +214,29 @@ public class TelaParticipantes {
         textFieldEmpresa.setBounds(377, 255, 75, 20);
         frame.getContentPane().add(textFieldEmpresa);
         textFieldEmpresa.setColumns(10);
+        
+        btnExibirIngressos = new JButton("Exibir ingressos");
+        btnExibirIngressos.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+	        		ArrayList<Ingresso> ingressos = Fachada.listarIngressos();
+	        		StringBuilder detalhesIngressos = new StringBuilder("Ingressos:\n");
+
+	                for (Ingresso ingresso : ingressos) {
+	                    detalhesIngressos.append("Código: ").append(ingresso.getCodigo()).append(", Telefone: ")
+	                            .append(ingresso.getTelefone()).append("\n");
+	                }
+	                
+	                JOptionPane.showMessageDialog(null, detalhesIngressos.toString(), "Detalhes dos Ingressos", JOptionPane.INFORMATION_MESSAGE);        		}
+        		
+        		catch (Exception erro) {
+                    log.setText("Selecione um evento para ver os detalhes dos ingressos.");
+        		}
+        	}
+        });
+        btnExibirIngressos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        btnExibirIngressos.setBounds(462, 144, 160, 23);
+        frame.getContentPane().add(btnExibirIngressos);
     }
 
     public void listagem() {
