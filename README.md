@@ -1,6 +1,6 @@
 # Sistema para gerenciar eventos
 
-O Sistema 4ever é uma aplicação desenvolvida para facilitar o gerenciamento de eventos, participantes e ingressos. O sistema foi projetado com uma arquitetura que separa as camadas de apresentação, regras de negócio, modelo de negócio e repositório, visando modularidade e fácil manutenção.
+O sistema em questão é uma aplicação desenvolvida para facilitar o gerenciamento de eventos, participantes e ingressos. O sistema foi projetado com uma arquitetura que separa as camadas de apresentação, regras de negócio, modelo de negócio e repositório, visando modularidade e fácil manutenção.
 
 ## Funcionalidades Principais
 
